@@ -4,10 +4,9 @@ import tracemalloc
 import time
 from heapq import heappush, heappop
 
-
 # 1. Search Strategies Implementation
 # 1.1. Breadth-first search (BFS)
-def bfs(arr, source, destination): # done
+def bfs(arr, source, destination):
     """
     BFS algorithm:
     Parameters:
@@ -28,42 +27,37 @@ def bfs(arr, source, destination): # done
         Founded path
     """
     # TODO
-
-    # Initialize visited dictionary (key: node, value: predecessor node), path and queue
     path = []
-    visited = {source: None}   # Mark source as visited with no predecessor
+    visited = {source: None} 
     queue = [source]
-
-    num_nodes = len(arr)  # Get the number of nodes from the matrix size
+    num_nodes = len(arr) 
 
     while queue:
-        current_node = queue.pop(0)  # Dequeue the first node
+        current_node = queue.pop(0)
 
         # Check if the current node is the destination
         if current_node == destination:
-            break  # Path found, break the loop
+            break 
 
         # Explore unvisited neighbors
         for neighbor in range(num_nodes):
             if arr[current_node][neighbor] != 0 and neighbor not in visited:
-                visited[neighbor] = current_node  # Update predecessor for neighbor
-                queue.append(neighbor)  # Enqueue unvisited neighbor
+                visited[neighbor] = current_node
+                queue.append(neighbor)  
 
-    # Construct the path (if found) by backtracking through predecessors
+    # Reconstruct the path
     if destination in visited:
         current_node = destination
         while current_node is not None:
             path.append(current_node)
             current_node = visited[current_node]
-        path.reverse()  # Reverse the path to get the correct order (source to destination)
-    else:
-        return visited, path
+        path.reverse()  # Reverse the path to get the correct order (source to destination)  
 
     return visited, path
 
 
 # 1.2. Depth-first search (DFS)
-def dfs(arr, source, destination): # done
+def dfs(arr, source, destination):
     """
     DFS algorithm:
     Parameters:
@@ -84,13 +78,10 @@ def dfs(arr, source, destination): # done
         Founded path
     """
     # TODO
-
-    # Initialize visited dictionary (key: node, value: predecessor node), path and queue
     path = []
-    visited = {source: None}   # Mark source as visited with no predecessor
+    visited = {source: None} 
     stack = [source]
-    
-    num_nodes = len(arr)  # Get the number of nodes from the matrix size
+    num_nodes = len(arr) 
 
     while stack:
         current_node = stack.pop()  # pop the last node
@@ -102,17 +93,16 @@ def dfs(arr, source, destination): # done
         # Explore unvisited neighbors
         for neighbor in range(num_nodes):
             if arr[current_node][neighbor] != 0 and neighbor not in visited:
-                visited[neighbor] = current_node # Update predecessor for neighbor
+                visited[neighbor] = current_node
                 stack.append(neighbor)
-    # Construct the path (if found) by backtracking through predecessors
+                
+    # Reconstruct the path
     if destination in visited:
         current_node = destination
         while current_node is not None:
             path.append(current_node)
             current_node = visited[current_node]
         path.reverse()  # Reverse the path to get the correct order (source to destination)
-    else:
-        return visited, path
 
     return visited, path
 
@@ -139,7 +129,6 @@ def ucs(arr, source, destination): # done
         Founded path
     """
     # TODO
-
     path = []
     visited = {source: None}
     costs = {source: 0}
@@ -150,9 +139,11 @@ def ucs(arr, source, destination): # done
     while priority_queue:
         current_cost, current = heappop(priority_queue)
         
+        # Check if the current node is the destination
         if current == destination:
             break
-
+        
+        # Explore unvisited neighbors
         for neighbor in range(num_nodes):
             if arr[current][neighbor] != 0:
                 total_cost = current_cost + arr[current][neighbor]
@@ -161,14 +152,13 @@ def ucs(arr, source, destination): # done
                     visited[neighbor] = current
                     heappush(priority_queue, (total_cost, neighbor))
 
+    # Reconstruct the path
     if destination in visited:
         current_node = destination
         while current_node is not None:
             path.append(current_node)
             current_node = visited[current_node]
         path.reverse()  # Reverse the path to get the correct order (source to destination)
-    else:
-        return visited, path    
 
     return visited, path
 
@@ -198,26 +188,28 @@ def dls(arr, source, destination, depth_limit):
         Founded path
     """
     # TODO
-
     path = []
     visited = {source: None}
     stack = [(source, 0)]  # (node, depth)
+    num_nodes = len(arr)
 
     while stack:
         current_node, current_depth = stack.pop()
 
+        # Check if current_depth < depth_limit
         if current_depth < depth_limit:
-            for neighbor in range(len(arr)):
+            if current_node == destination: # Check if the current node is the destination
+                while current_node is not None:
+                    path.append(current_node)
+                    current_node = visited[current_node]
+                path.reverse()
+                return visited, path
+            
+            # Explore unvisited neighbors
+            for neighbor in range(num_nodes):
                 if arr[current_node][neighbor] != 0 and neighbor not in visited:
                     visited[neighbor] = current_node
                     stack.append((neighbor, current_depth + 1))
-
-        if current_node == destination:
-            while current_node is not None:
-                path.append(current_node)
-                current_node = visited[current_node]
-            path.reverse()
-            return visited, path
 
     return visited, path  # No path found
 
@@ -243,7 +235,6 @@ def ids(arr, source, destination):
         Founded path
     """
     # TODO
-
     path = []
     visited = {source: None}
     depth_limit = 0
@@ -251,7 +242,6 @@ def ids(arr, source, destination):
     while True:
         visited, path = dls(arr, source, destination, depth_limit)
         if path:
-            print(depth_limit)
             return visited, path
 
         depth_limit += 1
@@ -281,7 +271,6 @@ def gbfs(arr, source, destination, heuristic):
         Founded path
     """
     # TODO
-
     path = []
     visited = {source: None}
     num_nodes = len(arr)
@@ -290,25 +279,23 @@ def gbfs(arr, source, destination, heuristic):
     while priority_queue:
         current_heuristic, current = heappop(priority_queue)
 
+        # Check if the current node is the destination
         if current == destination:
             break
         
+        # Explore unvisited neighbors
         for neighbor in range(num_nodes):
-            if arr[current][neighbor] != 0:
-                if neighbor not in visited:
+            if arr[current][neighbor] != 0 and neighbor not in visited:
                     visited[neighbor] = current
                     heappush(priority_queue, (heuristic[neighbor], neighbor))
-            print(priority_queue)
 
+    # Reconstruct the path
     if destination in visited:
         current_node = destination
         while current_node is not None:
             path.append(current_node)
-            # print(visited[current_node])
             current_node = visited[current_node]
-        path.reverse()  # Reverse the path to get the correct order (source to destination)
-    else:
-        return visited, path    
+        path.reverse()  # Reverse the path to get the correct order (source to destination) 
 
     return visited, path
 
@@ -337,7 +324,6 @@ def astar(arr, source, destination, heuristic): # Done
         Founded path
     """
     # TODO
-
     path = []
     visited = {source: None}
     costs = {source: heuristic[0]}
@@ -348,9 +334,11 @@ def astar(arr, source, destination, heuristic): # Done
     while priority_queue:
         current_cost, current = heappop(priority_queue)
         
+        # Check if the current node is the destination
         if current == destination:
             break
-
+        
+        # Explore unvisited neighbors
         for neighbor in range(num_nodes):
             if arr[current][neighbor] != 0:
                 total_cost = current_cost - heuristic[current] + arr[current][neighbor] + heuristic[neighbor]
@@ -359,14 +347,13 @@ def astar(arr, source, destination, heuristic): # Done
                     visited[neighbor] = current
                     heappush(priority_queue, (total_cost, neighbor))
 
+    # Reconstruct the path
     if destination in visited:
         current_node = destination
         while current_node is not None:
             path.append(current_node)
             current_node = visited[current_node]
         path.reverse()  # Reverse the path to get the correct order (source to destination)
-    else:
-        return visited, path    
 
     return visited, path
 
@@ -394,16 +381,17 @@ def hc(arr, source, destination, heuristic):
     path: list
         Founded path
     """
+    # TODO
     path = []
     visited = {source: None}
     current = source
     
     while current != destination:
-        neighbors = [(neighbor, heuristic[neighbor]) for neighbor, connected in enumerate(arr[current]) if connected]
+        neighbors = [(neighbor, heuristic[neighbor]) for neighbor, connected in enumerate(arr[current]) if connected != 0] # Get all neighbor of current
         if not neighbors:
             break
         
-        next_node = min(neighbors, key=lambda x: x[1])[0]
+        next_node = min(neighbors, key=lambda x: x[1])[0] # Find next_node
         
         if heuristic[next_node] >= heuristic[current]:
             break
@@ -413,10 +401,10 @@ def hc(arr, source, destination, heuristic):
     
     # Reconstruct the path
     if current == destination:
-        node = destination
-        while node is not None:
-            path.append(node)
-            node = visited[node]
+        current_node = destination
+        while current_node is not None:
+            path.append(current_node)
+            current_node = visited[current_node]
         path.reverse()
     
     return visited, path
@@ -440,38 +428,58 @@ def readInputData(file_path):
     heuristic: list / numpy array
         The heuristic value from the current node to the goal
     """
+    # Open input file
     f = open(file_path, "r")
-    numberOfNodes = int(f.readline())
-    startAndGoal = f.readline()
-    startAndGoal = startAndGoal.split(' ')
+
+    # Read the first line for number of nodes
+    numberOfNodes = int(f.readline()) 
+
+    # Read second line for start and goal node
+    startAndGoal = f.readline() 
+    startAndGoal = startAndGoal.split(' ') 
     startNode = int(startAndGoal[0])
     goalNode = int(startAndGoal[1][0: len(startAndGoal[1])-1])
+
+    # Read adjacency matrix
     matrix = np.zeros((numberOfNodes, numberOfNodes))
-    
     for i in range(0,numberOfNodes,1):
         temp = f.readline()
         vector = np.fromstring(temp[0:len(temp)-1], sep=' ')
-
         matrix[i] += vector
 
+    # Read heuristic
     temp = f.readline()
     heuristic = np.fromstring(temp[0:len(temp)], sep=' ')
+
+    # Close input file
     f.close()
+
     return startNode, goalNode, matrix, heuristic
 
 # 2. Main function
 if __name__ == "__main__":
     # TODO: Read the input data
-    file_path = input('Enter input file\'s path: ')
+
+    # Get file_path
+    file_path = input('Enter input file\'s path: ') 
+    print("-----------------------")
+
+    # Parse information from file_path
     name_index = file_path.rfind('.')
     file_name = file_path[0:name_index].split("\\")[-1]
 
-    startNode, goalNode, matrix, heuristic = readInputData(file_path)
-    result_file = "output_" + file_name + ".txt"
+    # Read data from input file
+    startNode, goalNode, matrix, heuristic = readInputData(file_path) 
+
+    # Open output file and remove any existing content
+    result_file = "output_" + file_name + ".txt" 
     f = open(result_file, "a")
     f.seek(0)
     f.truncate()
+
+    # Perform evey search strategies
     for algoChoice in range(7):
+
     # TODO: Start measuring
         tracemalloc.start()
         start_time = time.time()
@@ -480,65 +488,57 @@ if __name__ == "__main__":
         display_path = ''
         currentAlgo = ''
         if algoChoice == 0:
-            currentAlgo = 'BFS:\n'
+            currentAlgo = 'BFS:'
             visited, path = bfs(matrix, startNode, goalNode)
-            # print("BFS")
-            # print(visited)
-            # print(path)
         elif algoChoice == 1:
-            currentAlgo = 'DFS:\n'
+            currentAlgo = 'DFS:'
             visited, path = dfs(matrix, startNode, goalNode)
-            # print("DFS")
-            # print(visited)
-            # print(path)
         elif algoChoice == 2:
-            currentAlgo = 'UCS:\n'
+            currentAlgo = 'UCS:'
             visited, path = ucs(matrix, startNode, goalNode)
-            # print("UCS")
-            # print(visited)
-            # print(path)
         elif algoChoice == 3:
-            currentAlgo = 'IDS:\n'
+            currentAlgo = 'IDS:'
             visited, path = ids(matrix, startNode, goalNode)
-            # print("IDS")
-            # print(visited)
-            # print(path)
         elif algoChoice == 4:
-            currentAlgo = 'GBFS:\n'
+            currentAlgo = 'GBFS:'
             visited, path = gbfs(matrix, startNode, goalNode, heuristic)
-            # print("GBFS")
-            # print(visited)
-            # print(path)
         elif algoChoice == 5:
-            currentAlgo = 'A*:\n'
+            currentAlgo = 'A*:'
             visited, path = astar(matrix, startNode, goalNode, heuristic)
-            # print("A*")
-            # print(visited)
-            # print(path)
         elif algoChoice == 6:
-            currentAlgo = 'HC:\n'
+            currentAlgo = 'HC:'
             visited, path = hc(matrix, startNode, goalNode, heuristic)
-            # print("HC")
-            # print(visited)
-            # print(path)
-    # TODO: Stop measuring s
+
+    # TODO: Stop measuring
         current, peak = tracemalloc.get_traced_memory()
         tracemalloc.stop()
         endTime = time.time() - start_time
+
     # TODO: Show the output data
         for i in range(len(path)):
             if (i == len(path)-1):
                 display_path = display_path + str(path[i])
             else:
                 display_path = display_path + str(path[i]) + " -> "
-            
-        f.write(currentAlgo)
+        
+        f.write(f"{currentAlgo}\n")
+        print(f"Current algorithm {currentAlgo}")
+        print(f"Visited: {visited}")
+
         if path:
             f.write(f"Path: {display_path}\n")
+            print(f"Path: {display_path}")
         else:
             f.write(f"Path: -1\n")
+            print("Path: -1")
+        
         f.write(f"Time: {endTime:.6f} seconds\n")
+        print(f"Time: {endTime:.6f} seconds")
         f.write(f"Memory: {peak/1024:.2f} KB\n")
+        print(f"Memory: {peak/1024:.2f} KB")
         f.write("\n")
-    f.close()
+        print("-----------------------")
+        
+    # Close output file
+    f.close() 
     pass

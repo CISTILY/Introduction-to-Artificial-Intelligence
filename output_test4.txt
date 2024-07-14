@@ -1,6 +1,6 @@
 BFS:
 Path: 0 -> 2 -> 3 -> 5 -> 4
-Time: 0.000969 seconds
+Time: 0.000000 seconds
 Memory: 0.53 KB
 
 DFS:
@@ -13,24 +13,19 @@ Path: 0 -> 2 -> 3 -> 5 -> 4
 Time: 0.000000 seconds
 Memory: 0.99 KB
 
-DLS:
-Path: 0 -> 8 -> 3 -> 5 -> 4
-Time: 0.000000 seconds
-Memory: 0.53 KB
-
 IDS:
 Path: 0 -> 8 -> 3 -> 5 -> 4
-Time: 0.001002 seconds
+Time: 0.000000 seconds
 Memory: 0.81 KB
 
 GBFS:
 Path: 0 -> 2 -> 3 -> 5 -> 4
-Time: 0.019999 seconds
-Memory: 0.83 KB
+Time: 0.000000 seconds
+Memory: 0.59 KB
 
 A*:
 Path: 0 -> 2 -> 3 -> 5 -> 4
-Time: 0.001007 seconds
+Time: 0.001009 seconds
 Memory: 1.00 KB
 
 HC:

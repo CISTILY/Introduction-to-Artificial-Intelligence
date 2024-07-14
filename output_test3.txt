@@ -6,35 +6,30 @@ Memory: 0.53 KB
 DFS:
 Path: 0 -> 5 -> 6 -> 7
 Time: 0.000000 seconds
-Memory: 1.19 KB
+Memory: 0.53 KB
 
 UCS:
 Path: 0 -> 1 -> 7
 Time: 0.000000 seconds
-Memory: 2.02 KB
-
-DLS:
-Path: 0 -> 5 -> 6 -> 7
-Time: 0.000000 seconds
-Memory: 2.02 KB
+Memory: 1.07 KB
 
 IDS:
-Path: 0 -> 1 -> 7
-Time: 0.000000 seconds
-Memory: 2.22 KB
+Path: 0 -> 5 -> 6 -> 7
+Time: 0.000993 seconds
+Memory: 0.81 KB
 
 GBFS:
 Path: 0 -> 2 -> 3 -> 4 -> 7
-Time: 0.017002 seconds
-Memory: 2.59 KB
+Time: 0.001001 seconds
+Memory: 0.57 KB
 
 A*:
 Path: 0 -> 1 -> 7
 Time: 0.000000 seconds
-Memory: 3.07 KB
+Memory: 0.98 KB
 
 HC:
 Path: -1
-Time: 0.000999 seconds
-Memory: 3.33 KB
+Time: 0.001012 seconds
+Memory: 0.98 KB
 
