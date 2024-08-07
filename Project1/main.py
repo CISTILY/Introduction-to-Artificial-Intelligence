@@ -468,11 +468,14 @@ if __name__ == "__main__":
     name_index = file_path.rfind('.')
     file_name = file_path[0:name_index].split("\\")[-1]
 
+    # Prepare file_path for output file
+    result_path = file_path[0:name_index-len(file_name)]
+    result_file = result_path + "output_" + file_name + ".txt" 
+
     # Read data from input file
     startNode, goalNode, matrix, heuristic = readInputData(file_path) 
 
     # Open output file and remove any existing content
-    result_file = "output_" + file_name + ".txt" 
     f = open(result_file, "a")
     f.seek(0)
     f.truncate()
@@ -515,16 +518,20 @@ if __name__ == "__main__":
         endTime = time.time() - start_time
 
     # TODO: Show the output data
+
+        # Reformat the path for displaying
         for i in range(len(path)):
             if (i == len(path)-1):
                 display_path = display_path + str(path[i])
             else:
                 display_path = display_path + str(path[i]) + " -> "
         
+        # Write current search strategy in output file and print to terminal
         f.write(f"{currentAlgo}\n")
         print(f"Current algorithm {currentAlgo}")
         print(f"Visited: {visited}")
 
+        # Write path found in output file and print to terminal
         if path:
             f.write(f"Path: {display_path}\n")
             print(f"Path: {display_path}")
@@ -532,6 +539,7 @@ if __name__ == "__main__":
             f.write(f"Path: -1\n")
             print("Path: -1")
         
+        # Write time and memory used in output file and print to terminal
         f.write(f"Time: {endTime:.6f} seconds\n")
         print(f"Time: {endTime:.6f} seconds")
         f.write(f"Memory: {peak/1024:.2f} KB\n")

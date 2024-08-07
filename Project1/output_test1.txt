@@ -10,7 +10,7 @@ Memory: 0.37 KB
 
 UCS:
 Path: 0 -> 1 -> 2 -> 5
-Time: 0.001000 seconds
+Time: 0.000000 seconds
 Memory: 0.96 KB
 
 IDS:
@@ -20,16 +20,16 @@ Memory: 0.52 KB
 
 GBFS:
 Path: 0 -> 4 -> 5
-Time: 0.001002 seconds
+Time: 0.000000 seconds
 Memory: 0.41 KB
 
 A*:
 Path: 0 -> 4 -> 5
-Time: 0.000999 seconds
+Time: 0.000000 seconds
 Memory: 0.63 KB
 
 HC:
 Path: -1
-Time: 0.000000 seconds
+Time: 0.002039 seconds
 Memory: 0.93 KB
 
